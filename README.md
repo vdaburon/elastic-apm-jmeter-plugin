@@ -56,10 +56,10 @@ Help to see all parameters :
 
 <pre>
 C:\apache-jmeter\bin&gt;elastic-apm-integrate.cmd -help
-usage: io.gihub.vdaburon.jmeter.elasticapmxml.ElkApmJMeterManager -action &lt;action&gt; [-extract_end &lt;extract_end&gt;]
+usage: io.gihub.vdaburon.jmeter.elasticapmxml.ElasticApmJMeterManager -action &lt;action&gt; [-extract_end &lt;extract_end&gt;]
        [-extract_start &lt;extract_start&gt;] [-extract_udv &lt;extract_udv&gt;] -file_in &lt;file_in&gt; -file_out &lt;file_out&gt; [-help]
        [-regex &lt;regex&gt;]
-io.soprasteria.vdaburon.jmeter.elasticapmxml.ElkApmJMeterManager
+io.soprasteria.vdaburon.jmeter.elasticapmxml.ElasticApmJMeterManager
  -action &lt;action&gt;                 action ADD or REMOVE, ADD : add groovy api call and REMOVE : remove groovy api call
  -extract_end &lt;extract_end&gt;       optional, file contains groovy end call api (e.g : extract_end.xml), default read file
                                   in the jar
