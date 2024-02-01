@@ -86,7 +86,7 @@ e.g. action = REMOVE :
 
 ## Tool installed with jmeter-plugins-manager
 This tool could be installed with the jmeter-plugins-manager from jmeter.plugins.org.<br>
-The tool name is : "vdn@github - elastic apm jmeter tool"
+The tool name is : "vdn@github - elastic-apm-tool"
 
 ## Link to other project
 This plugin contains the tool [jmeter-elastic-apm](https://github.com/vdaburon/jmeter-elastic-apm)
