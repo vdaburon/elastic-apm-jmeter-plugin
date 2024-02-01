@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.MenuElement;
 
 import org.apache.jmeter.exceptions.IllegalUserActionException;
+import org.apache.jmeter.gui.GuiPackage;
 import org.apache.jmeter.gui.JMeterFileFilter;
 import org.apache.jmeter.gui.UnsharedComponent;
 import org.apache.jmeter.gui.action.AbstractAction;
@@ -96,8 +97,9 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
     }
 
     public void doAction(ActionEvent e) throws IllegalUserActionException {
-    	ElasticApmIntegrateGui elkApmIntegrateGui = new ElasticApmIntegrateGui();
-    	elkApmIntegrateGui.showInputDialog(getParentFrame(e));
+    	ElasticApmIntegrateGui elasticApmIntegrateGui = new ElasticApmIntegrateGui();
+        JFrame jfMainFrame = GuiPackage.getInstance().getMainFrame();
+        elasticApmIntegrateGui.showInputDialog(jfMainFrame);
     }
 
 
@@ -189,7 +191,7 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
             	labelStatus.setText("Tool ELASTIC APM Integration Running");
             	log.info("Before ElasticApmJMeterManager.modifyAddSamplerForElkApm");
             	log.info("fileIn=<"+ fileIn + ">, fileOut=<" + fileOut + ">, ACTION=" + sAction);
-     	 		ElasticApmJMeterManager.modifyAddSamplerForElkApm(fileIn, fileOut, sAction, regexTc, ElasticApmJMeterManager.EXTRACT_START_JSR223, ElasticApmJMeterManager.EXTRACT_END_JSR223, ElasticApmJMeterManager.EXTRACT_UDV_ELK);
+     	 		ElasticApmJMeterManager.modifyAddSamplerForElasticApm(fileIn, fileOut, sAction, regexTc, ElasticApmJMeterManager.EXTRACT_START_JSR223, ElasticApmJMeterManager.EXTRACT_END_JSR223, ElasticApmJMeterManager.EXTRACT_UDV_ELASTIC);
                 log.info("After ElasticApmJMeterManager.modifyAddSamplerForElkApm");
                 btModify.setEnabled(true);
      	 		File fFileOut = new File(fileOut);
