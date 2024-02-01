@@ -41,6 +41,10 @@ e.g. : Status Results **KO**
 * Tool ELASTIC APM Integration Finished KO, exception = java.util.regex.PatternSyntaxException: Unmatched closing ')' near index 1 .*)
 * Tool ELASTIC APM Integration Finished KO, CAN'T CREATE or jmx file doesn't exist (look in the log file), fileOut  = c:\toto (in log file : java.io.FileNotFoundException: c:\toto (Access denied)
   )
+
+## More documentation from jmeter-elastic-apm project
+For more documentation (Architecture schema, kibana APM dashboard,  JMeter script modified ...) look at README from [jmeter-elastic-apm](https://github.com/vdaburon/jmeter-elastic-apm)
+
 ## Command line tool (CLI)
 This tool could be use with script shell Windows or Linux.
 
@@ -87,9 +91,6 @@ e.g. action = REMOVE :
 ## Tool installed with jmeter-plugins-manager
 This tool could be installed with the jmeter-plugins-manager from jmeter.plugins.org.<br>
 The tool name is : "vdn@github - elastic-apm-tool"
-
-## Link to other project
-This plugin contains the tool [jmeter-elastic-apm](https://github.com/vdaburon/jmeter-elastic-apm)
 
 ## Versions
 version 1.0  first release
