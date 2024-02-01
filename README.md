@@ -1,11 +1,11 @@
 <p align="center">
 <img src="https://github.com/vdaburon/elastic-apm-jmeter-plugin/blob/main/doc/elasticapmjmplugin_logo.png" alt="elastic apm jmeter logo"/>
 
-  <p align="center">Apache JMeter tool plugin to Manage the integration of ElasticSearch Application Performance Monitoring in a JMeter script.</p>
+  <p align="center">Apache JMeter tool plugin to Manage the integration of Elastic Application Performance Monitoring in a JMeter script.</p>
   <p align="center"><a href="https://github.com/vdaburon/elastic-apm-jmeter-plugin">Link to github project elastic-apm-jmeter-plugin</a></p>
 </p>
 
-# Apache JMeter tool plugin to manage the Elasticsearch Application Performance Monitoring (ELASTIC APM) in JMeter script
+# Apache JMeter tool plugin to manage the Elastic Application Performance Monitoring (ELASTIC APM) in JMeter script
 
 ## GUI interface in the JMeter Tools Menu
 This tool is present in the Menu Tools > ELASTIC APM Integration Tool
