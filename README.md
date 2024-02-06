@@ -92,6 +92,14 @@ e.g. action = REMOVE :
 This tool could be installed with the jmeter-plugins-manager from jmeter.plugins.org.<br>
 The tool name is : "vdn@github - elastic-apm-tool"
 
+## Usage Maven
+The maven groupId, artifactId and version, this plugin is in the **Maven Central Repository** [![Maven Central elastic-apm-jmeter-plugin](https://maven-badges.herokuapp.com/maven-central/io.github.vdaburon/elastic-apm-jmeter-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.vdaburon/elastic-apm-jmeter-plugin)
+
+```xml
+<groupId>io.github.vdaburon</groupId>
+<artifactId>elastic-apm-jmeter-plugin</artifactId>
+<version>1.0</version>
+```
 ## Versions
 version 1.0  first release
 
