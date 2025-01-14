@@ -25,6 +25,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,6 +51,8 @@ import org.apache.jmeter.gui.plugin.MenuCreator;
 import org.apache.jmeter.gui.util.EscapeDialog;
 import org.apache.jmeter.gui.util.HorizontalPanel;
 import org.apache.jmeter.gui.util.VerticalPanel;
+import org.apache.jmeter.save.SaveService;
+import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.gui.ComponentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +70,8 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
     private static final String BROWSE_FILE_IN = "BROWSE_FILE_IN";
     private static final String BROWSE_FILE_OUT = "BROWSE_FILE_OUT";
     private static final String ACTION_CHOICE = "ACTION_CHOICE";
-    private static final String ACTION_INTEGRATE = "ACTION_INTEGRATE"; 
+    private static final String ACTION_MODIFY = "ACTION_MODIFY";
+    private static final String ACTION_MODIFY_AND_LOAD = "ACTION_MODIFY_AND_LOAD";
     private static final String ACTION_MENU_TOOL = "ACTION_MENU_TOOL"; 
 
     private EscapeDialog messageDialog;
@@ -80,6 +84,7 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
     private JTextField regexTextField;
     private JButton fileOutFileButton;
     private JButton btModify;
+    private JButton btModifyAndLoadNewScript;
     private String lastJFCDirectory;
     private JTextField labelStatus;
 
@@ -116,7 +121,7 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
     }
 
     public void setupInputDialog(JFrame parent) {
-        messageDialog = new EscapeDialog(parent, "ELASTIC APM INTEGRATION TOOL", false);
+        messageDialog = new EscapeDialog(parent, "vdn@github - ELASTIC APM INTEGRATION TOOL", false);
         setupContentPane();
     }
 
@@ -157,8 +162,8 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
 			}
         }
         
-        if (command.equals(ACTION_INTEGRATE)) {
- //       	log.info("ACTION_INTEGRATE");
+        if (command.equals(ACTION_MODIFY) || command.equals(ACTION_MODIFY_AND_LOAD)) {
+          	log.info("ACTION_MODIFY");
             String fileIn= fileInTextField.getText();
             
             File fFileIn = new File(fileIn);
@@ -188,12 +193,14 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
             
             try {
             	btModify.setEnabled(false);
+                btModifyAndLoadNewScript.setEnabled(false);
             	labelStatus.setText("Tool ELASTIC APM Integration Running");
             	log.info("Before ElasticApmJMeterManager.modifyAddSamplerForElkApm");
             	log.info("fileIn=<"+ fileIn + ">, fileOut=<" + fileOut + ">, ACTION=" + sAction);
      	 		ElasticApmJMeterManager.modifyAddSamplerForElasticApm(fileIn, fileOut, sAction, regexTc, ElasticApmJMeterManager.EXTRACT_START_JSR223, ElasticApmJMeterManager.EXTRACT_END_JSR223, ElasticApmJMeterManager.EXTRACT_UDV_ELASTIC);
                 log.info("After ElasticApmJMeterManager.modifyAddSamplerForElkApm");
                 btModify.setEnabled(true);
+                btModifyAndLoadNewScript.setEnabled(true);
      	 		File fFileOut = new File(fileOut);
                 if (!fFileOut.canRead()) {
                 	labelStatus.setText("Tool ELASTIC APM Integration Finished KO, CAN'T CREATE or jmx file doesn't exist (look in the log file), fileOut  = " + fileOut);
@@ -206,14 +213,30 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
                 e.printStackTrace();
                 except = e;
                 btModify.setEnabled(true);
+                btModifyAndLoadNewScript.setEnabled(true);
                 labelStatus.setText("Tool ELASTIC APM Integration Finished KO, exception = " + e);
                 labelStatus.setForeground(java.awt.Color.RED);
             }
             
             if (null == except) {
-                 btModify.setEnabled(true);
+                // new script jmx file OK
+                btModify.setEnabled(true);
+                btModifyAndLoadNewScript.setEnabled(true);
+
+                if (command.equals(ACTION_MODIFY_AND_LOAD)) {
+                    // open the script generated in current JMeter
+                    final HashTree tree;
+                    try {
+                        tree = SaveService.loadTree(new File(fileOut));
+                        org.apache.jmeter.gui.action.Load.insertLoadedTree(1,tree);
+                    } catch (IOException | IllegalUserActionException e) {
+                        labelStatus.setText("Tool ELASTIC APM Integration Finished KO (load new script), exception = " + e);
+                        labelStatus.setForeground(java.awt.Color.RED);
+                    }
+                }
             }
         }
+
         if (command.equals(BROWSE_FILE_IN)) {
         	fileInTextField.setText(showFileChooser(fileInTextField.getParent(),
         			fileInTextField, false, new String[] { ".jmx" }));
@@ -231,11 +254,17 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
     private JPanel createControls() {
     	btModify = new JButton("MODIFY SCRIPT"); 
     	btModify.addActionListener(this);
-    	btModify.setActionCommand(ACTION_INTEGRATE);
+    	btModify.setActionCommand(ACTION_MODIFY);
     	btModify.setEnabled(true);
+
+        btModifyAndLoadNewScript = new JButton("MODIFY SCRIPT AND LOAD NEW SCRIPT");
+        btModifyAndLoadNewScript.addActionListener(this);
+        btModifyAndLoadNewScript.setActionCommand(ACTION_MODIFY_AND_LOAD);
+        btModifyAndLoadNewScript.setEnabled(true);
 
         JPanel panel = new JPanel();
         panel.add(btModify);
+        panel.add(btModifyAndLoadNewScript);
         return panel;
     }
 
@@ -310,7 +339,7 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
         if (onlyDirectory) {
             jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         } else {
-            jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         }
         if(extensions != null && extensions.length > 0) {
             JMeterFileFilter currentFilter = new JMeterFileFilter(extensions);
@@ -341,7 +370,7 @@ public class ElasticApmIntegrateGui extends AbstractAction implements
 	            return new JMenuItem[0];
 	        }
 
-	        JMenuItem menuItem = new JMenuItem("ELASTIC APM Integration Tool", null);
+	        JMenuItem menuItem = new JMenuItem("vdn@github - ELASTIC APM Integration Tool", null);
 	        menuItem.setName("ELASTIC APM Integration Tool");
 	        menuItem.setActionCommand(ACTION_MENU_TOOL);
 	        menuItem.setAccelerator(null);

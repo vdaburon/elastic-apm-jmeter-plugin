@@ -7,8 +7,11 @@
 
 # Apache JMeter tool plugin to manage the Elastic Application Performance Monitoring (ELASTIC APM) in JMeter script
 
+An article "Why and How To Integrate Elastic APM in Apache JMeter" about this plugin and some advices: <br/>
+https://dzone.com/articles/integrating-elastic-apm-in-apache-jmeter
+
 ## GUI interface in the JMeter Tools Menu
-This tool is present in the Menu Tools > ELASTIC APM Integration Tool
+This tool is present in the Menu Tools > vdn@github - ELASTIC APM Integration Tool
 
 ![Menu Tools](doc/images/jmeter_menu_tools_with_elastic_apm.png)
 
@@ -28,7 +31,8 @@ Parameters are :
   * default all = .* (this regular expression matches all labels)
   * e.g. regex = SC\d+_P.+ matches labels "SC01_P01_LOGIN" or "SC20_P12B_LOGOUT" or SC01_P01_LOGIN|SC02_P02_FIND|SC02_P012_LOGOUT for some Transaction Controllers
 
-Button "MODIFY SCRIPT", this button launch the tool with parameters.
+Button "MODIFY SCRIPT", this button launch the tool with parameters.<br/>
+Button "MODIFY SCRIPT AND LOAD NEW SCRIPT", this button launch the tool with parameters and next if no error LOAD the generated script in the current JMeter.
 
 Status, the status line contains the tool status or the tool result.
 
@@ -98,8 +102,10 @@ The maven groupId, artifactId and version, this plugin is in the **Maven Central
 ```xml
 <groupId>io.github.vdaburon</groupId>
 <artifactId>elastic-apm-jmeter-plugin</artifactId>
-<version>1.0</version>
+<version>2.0</version>
 ```
 ## Versions
-version 1.0  first release
+Version 2.0 2025-01-14, Choose only a jmx file not a directory and add button "MODIFY SCRIPT AND LOAD NEW SCRIPT"
+
+version 1.0  2024-02-06, First release
 
